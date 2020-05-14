@@ -5,12 +5,21 @@ type tactic = env -> env
 
 let find p (l:prop list) = List.exists ((=) p) l
 
-let apply {ctx; goals; proof} p =
+let apply p {ctx; goals; proof} =
   match goals, p with
   | [], _ -> failwith "no more subgoals"
   | g::goals, Impl (a, b) when g = b && find p ctx ->
     {ctx; goals=a::goals; proof=Axiom (ctx, p)::ElimImpl::proof}
   | _ -> failwith "Unable to use apply"
+
+let elim p {ctx; goals; proof} =
+  match goals, p with
+  | [], _ -> failwith "no more subgoals"
+  | g::goals, And (a, b) when a = g || b = g && find p ctx ->
+    {ctx;
+     goals=a::goals;
+     proof=Axiom (ctx, p)::(if a = g then ElimAndL else ElimAndR)::proof}
+  | _ -> failwith "Unable to use elim"
 
 let intro {ctx; goals; proof} =
   match goals with
@@ -51,6 +60,18 @@ let assumption {ctx; goals; proof} =
      goals=goals;
      proof=Axiom (ctx, g)::proof}
   | _ -> failwith "Unable to use assumtion"
+
+
+let debug env =
+  print_newline ();
+  List.iteri (fun i p ->
+      Printf.printf "   %d : %s\n" i (show_prop p)
+    ) env.ctx;
+  print_endline "------------------------------";
+  List.iteri (fun i p ->
+      Printf.printf "[%d/%d]  %s\n" (i+1) (List.length env.goals) (show_prop p)
+    ) env.goals;
+  env
 
 let qed p e =
   if check p e.proof
