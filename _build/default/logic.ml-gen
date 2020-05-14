@@ -1,0 +1,5 @@
+(** @canonical Logic.Engine *)
+module Engine = Logic__Engine
+
+(** @canonical Logic.Rules *)
+module Rules = Logic__Rules

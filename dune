@@ -1,0 +1,8 @@
+(library
+  (name logic)
+  (modules rules engine))
+
+(executable
+  (name test)
+  (libraries logic)
+  (modules test))
