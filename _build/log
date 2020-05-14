@@ -1,10 +1,10 @@
 # dune exec ./test.exe
 # OCAMLPARAM: unset
 # Workspace root: /Users/arthur/Documents/code/ocaml/kernel
-$ /usr/bin/getconf _NPROCESSORS_ONLN > /var/folders/vt/lt357z2s483cp146j8jhw8pr0000gn/T/dunecfaa6c.output 2> /dev/null
+$ /usr/bin/getconf _NPROCESSORS_ONLN > /var/folders/vt/lt357z2s483cp146j8jhw8pr0000gn/T/dune26df14.output 2> /dev/null
 # Auto-detected concurrency: 4
 # disable binary cache
-$ /Users/arthur/.opam/4.08.0/bin/ocamlc.opt -config > /var/folders/vt/lt357z2s483cp146j8jhw8pr0000gn/T/dune9123d8.output
+$ /Users/arthur/.opam/4.08.0/bin/ocamlc.opt -config > /var/folders/vt/lt357z2s483cp146j8jhw8pr0000gn/T/duned70137.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"

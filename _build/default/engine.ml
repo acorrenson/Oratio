@@ -4,44 +4,72 @@ type instructions =
   | IntroImpl of prop
   | ElimImpl
   | ElimBot of prop
-  | Axiom of prop
+  | Axiom of prop list * prop
+  | IntroBot
+  | IntroOrL of prop
+  | IntroOrR of prop
+  | ElimOr
+  | IntroAnd
+  | ElimAndL
+  | ElimAndR
   | Theorem of thm
 
+type env = {ctx:prop list; 
+            goals:prop list;
+            proof:instructions list}
+
 let eval prog =
-  let rec step hyps thms prog instr =
+  let fail () = failwith "incomplete proof" in
+  let rec exec thms prog =
     match prog with
-    | [] -> exec thms instr
-    | Axiom p::prog ->
-      step (hyps) (axiom hyps p::thms) prog instr
-    | IntroImpl p::prog ->
-      step (p::hyps) thms prog (IntroImpl p::instr)
-    | ElimImpl::prog ->
-      step hyps thms prog (ElimImpl::instr)
-    | ElimBot p::prog ->
-      step hyps thms prog (ElimBot p::instr)
-    | Theorem t::prog ->
-      step hyps (t::thms) prog instr
-  and exec thms prog =
-    match prog with
+    | IntroBot::prog ->
+      (match thms with
+       | t1::t2::thms -> exec (intro_bot t1 t2::thms) prog
+       | _ -> fail ())
     | ElimBot p::prog ->
       (match thms with
        | t::thms -> exec (elim_bot t p::thms) prog
-       | _ -> failwith "incomplete proof")
+       | _ -> fail ())
     | ElimImpl::prog ->
       (match thms with
        | t1::t2::thms -> exec (elim_impl t1 t2::thms) prog
-       | _ -> failwith "incomplete proof")
+       | _ -> fail ())
     | IntroImpl p::prog ->
       (match thms with
        | t::thms -> exec (intro_impl t p::thms) prog
-       | _ -> failwith "incomplete proof")
+       | _ -> fail ())
+    | IntroAnd::prog ->
+      (match thms with
+       | t1::t2::thms -> exec (intro_and t1 t2::thms) prog
+       | _ -> fail ())
+    | ElimAndL::prog ->
+      (match thms with
+       | t::thms -> exec (elim_and_l t::thms) prog
+       | _ -> fail ())
+    | ElimAndR::prog ->
+      (match thms with
+       | t::thms -> exec (elim_and_r t::thms) prog
+       | _ -> fail ())
+    | IntroOrL p::prog ->
+      (match thms with
+       | t::thms -> exec (intro_or_l t p::thms) prog
+       | _ -> fail ())
+    | IntroOrR p::prog ->
+      (match thms with
+       | t::thms -> exec (intro_or_r t p::thms) prog
+       | _ -> fail ())
+    | ElimOr::prog ->
+      (match thms with
+       | t1::t2::t3::thms -> exec (elim_or t1 t2 t3::thms) prog
+       | _ -> fail ())
+    | Theorem t::prog -> exec (t::thms) prog
+    | Axiom (l, p)::prog -> exec (axiom l p::thms) prog
     | [] -> thms
-    | _ -> assert false
   in
-  match step [] [] prog [] with
+  match exec [] prog with
   | [] -> failwith "no thms..."
   | t::_ -> t
 
-let check goal prog = 
-  eval prog
-  |> qed goal
+let check goal prog = is_proof (eval prog) goal
+
+let init p = {ctx=[]; goals=[p]; proof=[]}

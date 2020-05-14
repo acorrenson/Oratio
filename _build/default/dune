@@ -1,6 +1,6 @@
 (library
   (name logic)
-  (modules rules engine))
+  (modules rules engine tactic))
 
 (executable
   (name test)

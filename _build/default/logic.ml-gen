@@ -3,3 +3,6 @@ module Engine = Logic__Engine
 
 (** @canonical Logic.Rules *)
 module Rules = Logic__Rules
+
+(** @canonical Logic.Tactic *)
+module Tactic = Logic__Tactic
