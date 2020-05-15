@@ -1,3 +1,10 @@
+(**
+   Oratio proof construction engine
+   --------------------------------
+
+   This module provides methods to execute a proof construction program
+*)
+open Logic
 open Rules
 
 type instructions =

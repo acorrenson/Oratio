@@ -1,3 +1,6 @@
 (library
   (name oratio)
-  (modules rules engine tactic))
+  (public_name Oratio.oratio)
+  (modules rules engine tactic logic))
+
+(documentation)

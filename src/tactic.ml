@@ -1,5 +1,6 @@
 open Rules
 open Engine
+open Logic
 
 type env = {ctx:prop list list;
             goals:prop list;
