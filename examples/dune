@@ -1,4 +1,4 @@
 (executable
   (name test)
-  (libraries oratio)
+  (libraries kernel)
   (modules test))

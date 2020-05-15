@@ -1,6 +1,5 @@
-(* open Oratio.Engine *)
-open Oratio.Rules
-open Oratio.Tactic
+open Kernel.Tactic
+open Kernel.Logic
 
 let _ =
   let p = (Impl (And (Atom 'a', Atom 'b'), And (Atom 'b', Atom 'a'))) in

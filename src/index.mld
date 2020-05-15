@@ -1,8 +1,0 @@
-{1 Oratio}
-
-Oratio is an experimental tool to translate natural deduction proof in propositional logic 
-into natural language (English, French). More than a translator, it is also a tiny proof assistant.
-
-The documentation starts here {!Oratio}
-
-
