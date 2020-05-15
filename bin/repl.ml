@@ -17,6 +17,7 @@ let repl prop =
   step (init prop)
 
 let _ =
-  repl (Impl (Or (Atom 'a', Atom 'b'), Or (Atom 'b', Atom 'a')))
+  (* repl (Impl (Or (Atom 'a', Atom 'b'), Or (Atom 'b', Atom 'a'))); *)
+  repl (Impl (And (Atom 'a', Not (Atom 'a')), Bot))
 
 

@@ -36,7 +36,7 @@ let apply p {ctx; goals; proof} =
   match goals, p with
   | [], _ -> failwith "no more subgoals"
   | g::goals, Impl (a, b) when g = b && find p ctx ->
-    {ctx;
+    {ctx = ctx;
      goals = a::goals;
      proof = Axiom (top_frame ctx, p)::ElimImpl::proof}
   | _ -> failwith "Unable to use apply"
@@ -45,14 +45,14 @@ let elim p {ctx; goals; proof} =
   match goals, p with
   | [], _ -> failwith "no more subgoals"
   | g::goals, And (a, b) when a = g || b = g && find p ctx ->
-    {ctx = ctx;
+    {ctx = drop_frame ctx;
      goals = goals;
      proof =
        Axiom (top_frame ctx, p)
        ::(if a = g then ElimAndL else ElimAndR)
        ::proof}
   | g::goals, Or (a, b) when find p ctx ->
-    {ctx = (a::top_frame ctx)::(b::top_frame ctx)::ctx;
+    {ctx = (a::top_frame ctx)::(add_hyp b ctx);
      goals = g::g::goals;
      proof =
        Axiom (top_frame ctx, p)
@@ -64,7 +64,7 @@ let elim p {ctx; goals; proof} =
      proof =
        ElimOr
        ::proof}
-  | _ -> failwith "Unable to use elim"
+  | _ -> failwith ("Unable to use elim " ^ (show_prop p))
 
 
 let left {ctx; goals; proof} =
@@ -84,6 +84,31 @@ let right {ctx; goals; proof} =
      goals = b::goals;
      proof = IntroOrR a::proof}
   | _ -> failwith "Unable to use left"
+
+let contradiction p {ctx; goals; proof} =
+  match goals with
+  | [] -> failwith "no more subgoals"
+  | g::goals ->
+    {ctx = add_frame ctx;
+     goals = p::(Not p)::goals;
+     proof = IntroBot::ElimBot g::proof}
+
+let exfalso {ctx; goals; proof} =
+  match goals with
+  | [] -> failwith "no more subgoals"
+  | g::goals when find Bot ctx ->
+    {ctx;
+     goals;
+     proof = Axiom (top_frame ctx, Bot)::ElimBot g::proof}
+  | _ -> failwith "unable to use exfalso"
+
+let assertion p {ctx; goals; proof} =
+  match goals with
+  | [] -> failwith "no more subgoals"
+  | g::goals ->
+    {ctx=(top_frame ctx)::(add_hyp p ctx);
+     goals = p::g::goals;
+     proof = proof}
 
 let intro {ctx; goals; proof} =
   match goals with
