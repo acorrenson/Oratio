@@ -8,7 +8,7 @@ type env = {ctx:prop list list;
 let add_frame ctx =
   match ctx with
   | [] -> [[]]
-  | f::fs -> f::f::fs
+  | f::fs -> f::f::fs 
 
 let drop_frame ctx =
   match ctx with
@@ -20,7 +20,7 @@ let top_frame ctx =
   | [] -> []
   | f::_ -> f
 
-let add_hyp ctx p =
+let add_hyp p ctx =
   match ctx with
   | [] -> [[p]]
   | f::fs -> (p::f)::fs
@@ -50,20 +50,21 @@ let elim p {ctx; goals; proof} =
        Axiom (top_frame ctx, p)
        ::(if a = g then ElimAndL else ElimAndR)
        ::proof}
+  | g::goals, Or (a, b) when find p ctx ->
+    {ctx = (a::top_frame ctx)::(b::top_frame ctx)::ctx;
+     goals = g::g::goals;
+     proof =
+       Axiom (top_frame ctx, p)
+       ::ElimOr
+       ::proof}
+  | g::goals, Or (a, b) ->
+    {ctx = (top_frame ctx)::(a::top_frame ctx)::(b::top_frame ctx)::ctx;
+     goals = p::g::g::goals;
+     proof =
+       ElimOr
+       ::proof}
   | _ -> failwith "Unable to use elim"
 
-let intro {ctx; goals; proof} =
-  match goals with
-  | [] -> failwith "no more subgoals"
-  | Impl (a, b)::goals ->
-    {ctx = add_hyp ctx a;
-     goals = b::goals;
-     proof = IntroImpl a::proof}
-  | And (a, b)::goals ->
-    {ctx = add_frame ctx;
-     goals = a::b::goals;
-     proof = IntroAnd::proof}
-  | _ -> failwith "Unable to use intro"
 
 let left {ctx; goals; proof} =
   match goals with
@@ -82,6 +83,24 @@ let right {ctx; goals; proof} =
      goals = b::goals;
      proof = IntroOrR a::proof}
   | _ -> failwith "Unable to use left"
+
+let intro {ctx; goals; proof} =
+  match goals with
+  | [] -> failwith "no more subgoals"
+  | Impl (a, b)::goals ->
+    {ctx = add_hyp a ctx;
+     goals = b::goals;
+     proof = IntroImpl a::proof}
+  | And (a, b)::goals ->
+    {ctx = add_frame ctx;
+     goals = a::b::goals;
+     proof = IntroAnd::proof}
+  | Or (a, b)::goals ->
+    if find a ctx then left {ctx; goals; proof}
+    else if find b ctx then right {ctx; goals; proof}
+    else failwith "Unable to use intro"
+  | _ -> failwith "Unable to use intro"
+
 
 let assumption {ctx; goals; proof} =
   match goals with
