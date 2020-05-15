@@ -8,8 +8,6 @@ type prop =
 type thm
 val show_thm : thm -> string
 val show_prop : prop -> string
-val hyp : 'a -> 'a list -> bool
-val rem : 'a -> 'a list -> 'a list
 val get_ctx : thm -> prop list
 val get_prop : thm -> prop
 val is_proof : thm -> prop -> bool

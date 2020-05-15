@@ -14,10 +14,6 @@ type instructions =
   | ElimAndR
   | Theorem of thm
 
-type env = {ctx:prop list; 
-            goals:prop list;
-            proof:instructions list}
-
 let eval prog =
   let fail () = failwith "incomplete proof" in
   let rec exec thms prog =
@@ -69,7 +65,3 @@ let eval prog =
   match exec [] prog with
   | [] -> failwith "no thms..."
   | t::_ -> t
-
-let check goal prog = is_proof (eval prog) goal
-
-let init p = {ctx=[]; goals=[p]; proof=[]}

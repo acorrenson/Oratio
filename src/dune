@@ -1,0 +1,3 @@
+(library
+  (name oratio)
+  (modules rules engine tactic))

@@ -52,7 +52,7 @@ let get_prop (Thm (_, p)) = p
 let is_proof (Thm (e, p)) q = e = [] && p = q
 
 let axiom l p =
-  if List.exists ((=) p) l 
+  if List.exists ((=) p) l
   then Thm (l, p)
   else failwith "[axiom] failed"
 
@@ -101,4 +101,3 @@ let elim_and_r (Thm (e, p)) =
   match p with
   | And (_, q) -> Thm (e, q)
   | _ -> failwith "[elim_and_r] failed"
-

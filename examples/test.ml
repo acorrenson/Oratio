@@ -1,7 +1,7 @@
-open Logic.Engine
-open Logic.Rules
-open Logic.Tactic
-
+(* open Oratio.Engine *)
+open Oratio.Rules
+open Oratio.Tactic
+(* 
 let display n b =
   if b then Printf.printf "Goal %s Proved.\n" n
   else Printf.printf "Goal %s Failed.\n" n
@@ -27,15 +27,20 @@ let _ =
   |> List.rev
   |> check (Impl (Atom 'a', Impl (Atom 'b', Atom 'a')))
   |> display "Goal2"
+*)
 
 let _ =
   let p = (Impl (And (Atom 'a', Atom 'b'), And (Atom 'b', Atom 'a'))) in
   init p
+  |> debug
   |> intro
+  |> debug
   |> intro
   |> debug
   |> elim (And (Atom 'a', Atom 'b'))
+  |> debug
   |> elim (And (Atom 'a', Atom 'b'))
+  |> debug
   |> qed p
 
 let _ =
@@ -44,4 +49,42 @@ let _ =
   |> intro
   |> intro
   |> assumption
+  |> qed p
+
+
+let _ =
+  let p = Impl (Atom 'c', And (Impl (Atom 'a', Atom 'a'), Atom 'c')) in
+  init p
+  |> debug
+  |> intro
+  |> debug
+  |> intro
+  |> debug
+  |> intro
+  |> debug
+  |> assumption
+  |> debug
+  |> assumption
+  |> debug
+  |> qed p
+
+let _ =
+  let p = Impl (And (Atom 'a', Atom 'b'), 
+                And (And (Atom 'a', Atom 'b'), 
+                     And (Atom 'b', Atom 'a'))) 
+  in
+  init p
+  |> debug
+  |> intro
+  |> debug
+  |> intro
+  |> debug
+  |> assumption
+  |> debug
+  |> intro
+  |> debug
+  |> elim (And (Atom 'a', Atom 'b'))
+  |> debug
+  |> elim (And (Atom 'a', Atom 'b'))
+  |> debug
   |> qed p
