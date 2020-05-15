@@ -16,8 +16,9 @@ let repl prop =
   in
   step (init prop)
 
-let _ =
-  (* repl (Impl (Or (Atom 'a', Atom 'b'), Or (Atom 'b', Atom 'a'))); *)
-  repl (Impl (And (Atom 'a', Not (Atom 'a')), Bot))
-
+let () =
+  match goals (Sys.argv.(1)) with
+  | Some gs ->
+    List.iter repl gs
+  | None -> failwith "invalid input file"
 

@@ -41,6 +41,7 @@ let apply p {ctx; goals; proof} =
      proof = Axiom (top_frame ctx, p)::ElimImpl::proof}
   | _ -> failwith "Unable to use apply"
 
+
 let elim p {ctx; goals; proof} =
   match goals, p with
   | [], _ -> failwith "no more subgoals"
@@ -66,6 +67,7 @@ let elim p {ctx; goals; proof} =
        ::proof}
   | _ -> failwith ("Unable to use elim " ^ (show_prop p))
 
+let elimn n e = elim (List.nth (top_frame e.ctx) n) e
 
 let left {ctx; goals; proof} =
   match goals with
@@ -147,6 +149,32 @@ let debug env =
   List.iteri (fun i p ->
       Printf.printf "[%d/%d]  %s\n" (i+1) (List.length env.goals) (show_prop p)
     ) env.goals;
+  env
+
+let help env =
+  print_endline "Tactic Help";
+  print_endline "-----------";
+  print_endline "- intro";
+  print_endline "\tUse an introduction rule matching the current goal";
+  print_endline "- elim p";
+  print_endline "\tTry to eliminate a conjuction or a disjunction";
+  print_endline "\tIf p is a is already in the context, its proof is not required";
+  print_endline "\tIf p is not already in the context, its proof is required";
+  print_endline "- elimn n";
+  print_endline "\tUse elim on the nth hyptothesis of the context";
+  print_endline "- assertion p";
+  print_endline "\tAdd p to the context providing a proof of it";
+  print_endline "- left|right";
+  print_endline "\tLeft|Right elimination of a disjunction";
+  print_endline "- exfalso";
+  print_endline "\tTerminate the proof if Botom is found the context";
+  print_endline "- contradiction p";
+  print_endline "\tTerminate the proof providing proofs of (p) and (not p)";
+  print_endline "- assumption";
+  print_endline "\tTerminate the proof if the current goal is in the context";
+  print_endline "- debug";
+  print_endline "\tdisplay the current context and goals";
+  ignore (read_line ());
   env
 
 let qed p e =
