@@ -1,14 +1,64 @@
 (**
-   {1 Oratio proof construction engine}
+   {1 Oratio's proof construction engine}
 
    This module expose a langage as well as a generic evaluator
    for proofs construction programs.
 
-   Multiple backends could be used to customize this engine and use it to produce
-   indistinclty proof-trees, explanation texts, typed lambda-terms or any other proof object.
-   The interface for such customization it is the {! Make} functor.
+   Multiple backends could be used together with this engine and use it to produce
+   indistinclty proof-trees, explanation texts, typed lambda-terms or any other 
+   proof object. The interface for such parametrizations is the {! Make} functor.
+
+   {2 The proof construction language}
+
+   The proof construction language is composed of 12 elementary instructions (see {! instructions}).
+   Instructions are evaluated by a stack machine as follows :
+
+   - [ElimBot p]
+
+   Pop a [thm] from the stack, apply [elim_bot] with [p] as second 
+   argument on it and push the result
+
+   - [ElimImpl]
+
+   Pop 2 [thm] from the stack, apply [elim_impl] on them 
+   and push the result
+
+   - [ElimAndL] or [ElimAndR]
+
+   Pop a [thm] from the stack, apply [elim_and_l] (respectively [elim_and_r]) on it
+   and push the result
+
+   - [ElimOr]
+
+   Pop 3 [thm] from the stack, apply [elim_or] on them
+   and push the result
+
+   - [IntroBot]
+
+   Pop 2 [thm] from the stack, apply [intro_bot] on them
+   and push the result
+
+   - [IntroImpl p]
+
+   Pop a [thm] from the stack, apply [intro_impl] with p as second
+   argument on it and push the result
+
+   - [IntroAnd]
+
+   Pop 2 [thm] from the stack, apply [intro_and] on them
+   and push the result
+
+   - [IntroOrL p] or [IntroOrL p]
+
+   Pop a [thm] from the stack, apply [intro_or_l] (respectively [intro_or_r]) 
+   with p as second argument on it and push the result
+
+   - [Axiom l p]
+
+   Push [axiom l p] on the stack
 *)
 
+(** Signature of backend modules for the engine *)
 module type EVAL_MODEL = sig
   (** Proof object *)
   type thm
@@ -34,37 +84,26 @@ module type EVAL_MODEL = sig
 
   (** {2 End of proofs rules} *)
 
-  val theorem : thm -> thm
   val axiom : prop list -> prop -> thm
 end
 
+(** Proof construction language *)
 type ('thm, 'prop) instructions =
-  | IntroImpl of 'prop
-  | ElimImpl
-  | ElimBot of 'prop
-  | Axiom of 'prop list * 'prop
   | IntroBot
+  | IntroImpl of 'prop
+  | IntroAnd
   | IntroOrL of 'prop
   | IntroOrR of 'prop
-  | ElimOr
-  | IntroAnd
+  | ElimBot of 'prop
+  | ElimImpl
   | ElimAndL
   | ElimAndR
-  | Theorem of 'thm
-
-module type EVALUATOR = sig
-  type thm
-  type prop
-  val eval : (thm, prop) instructions list -> thm
-end
+  | ElimOr
+  | Axiom of 'prop list * 'prop
 
 
-(* module Make (X : EVAL_MODEL) : EVALUATOR with type thm = X.thm and type prop = X.prop = struct *)
-module Make (X: EVAL_MODEL) : EVALUATOR with type thm = X.thm and type prop = X.prop = struct
+module Make (X: EVAL_MODEL) = struct
   open X
-
-  type thm = X.thm
-  type prop = X.prop
 
   let eval prog =
     let fail () = failwith "evaluation failed" in
@@ -110,7 +149,6 @@ module Make (X: EVAL_MODEL) : EVALUATOR with type thm = X.thm and type prop = X.
         (match thms with
          | t1::t2::t3::thms -> exec (elim_or t1 t2 t3::thms) prog
          | _ -> fail ())
-      | Theorem thm::prog -> exec (theorem thm::thms) prog
       | Axiom (l, prop)::prog -> exec (axiom l prop::thms) prog
       | [] -> thms
     in

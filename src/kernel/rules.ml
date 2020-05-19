@@ -74,5 +74,3 @@ let elim_and_r (Thm (e, p)) =
   match p with
   | And (_, q) -> Thm (e, q)
   | _ -> failwith "[elim_and_r] failed"
-
-let theorem t = t

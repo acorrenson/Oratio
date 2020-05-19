@@ -1,19 +1,20 @@
 (**
-   {1 Rules }
+   {1 Rules}
 
-   This module is the central piece of the kernel.
-   It exposes smart constructors to build valid sequents.
-   Using these verified constructors is the only way to build 
-   a {!thm} object. [thm] objects are then valid by construction.
+   This module provides a backend for Oratio's {! engine}
+   to build valid by construction sequents.
+
+   The type {!thm} represents sequents. Functions of this modules
+   implements introduction and elimination rules as smart constructors
+   of this type.
 *)
 
-(** {2 The Theorem object } *)
+(** {2 The Theorem type } *)
 
 (** The type representing valid sequents *)
 type thm
 
 type prop = Logic.prop
-
 
 val show_thm : thm -> string
 (** Stringify a {!thm} object for pretty printing purposes *)
@@ -31,7 +32,12 @@ val is_proof : thm -> prop -> bool
     [is_proof thm prop] is true if and only if [get_ctx thm] is the empty context
     and [get_prop thm] is [prop]. *)
 
-(** {2 The inference rules } *)
+(** {2 The inference rules }
+
+    Introduction and elimination rules for the natural deduction in
+    propositional logic. Rules produce a [thm] object or fail
+    displaying an error message.
+*)
 
 (** {b Axiom} rule.
     [axiom Γ p] represents the sequent [Γ ⊢ p] where [p] is in [Γ]. *)
@@ -76,5 +82,3 @@ val elim_and_l : thm -> thm
 (** {b And Elimination (right)} rule.
     [elim_and_r (Γ ⊢ α ∧ β)] represents the sequent [Γ ⊢ β]. *)
 val elim_and_r : thm -> thm
-
-val theorem : thm -> thm

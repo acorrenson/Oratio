@@ -1,3 +1,9 @@
+(**
+   {1 Debuger}
+
+   An rewrite of the {! kernel} module to trace executions in stdout.
+*)
+
 open Kernel
 
 type thm = Rules.thm
@@ -54,11 +60,6 @@ let elim_or t1 t2 t3 =
   Printf.printf "elim OR from %s, %s and (%s)\n"
     (Rules.show_thm t1) (Rules.show_thm t2) (Rules.show_thm t3);
   Rules.elim_or t1 t2 t3
-
-let theorem t =
-  Printf.printf "We know theorem (%s)\n"
-    (Rules.show_thm t);
-  Rules.theorem t
 
 let axiom l p =
   Printf.printf "%s is in [%s ]\n"
