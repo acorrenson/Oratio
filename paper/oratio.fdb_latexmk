@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1589826044 "/Users/arthur/Documents/github/Oratio/paper/oratio.tex" "/Users/arthur/Documents/github/Oratio/paper/oratio.pdf" "oratio" 1589883101
+["pdflatex"] 1589826044 "/Users/arthur/Documents/github/Oratio/paper/oratio.tex" "/Users/arthur/Documents/github/Oratio/paper/oratio.pdf" "oratio" 1589900254
   "/Users/arthur/Documents/github/Oratio/paper/oratio.aux" 1589826044 342 e5a337bc281123083216eeb25b2157ff ""
   "/Users/arthur/Documents/github/Oratio/paper/oratio.tex" 1589883100 3268 706b0e1bb9d889aa9b65237cfa80611e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
@@ -44,8 +44,8 @@
   "oratio.aux" 1589826044 342 e5a337bc281123083216eeb25b2157ff "pdflatex"
   "oratio.tex" 1589883100 3268 706b0e1bb9d889aa9b65237cfa80611e ""
   (generated)
-  "oratio.pdf"
+  "/Users/arthur/Documents/github/Oratio/paper/oratio.pdf"
+  "oratio.log"
   "/Users/arthur/Documents/github/Oratio/paper/oratio.log"
   "oratio.aux"
-  "oratio.log"
-  "/Users/arthur/Documents/github/Oratio/paper/oratio.pdf"
+  "oratio.pdf"

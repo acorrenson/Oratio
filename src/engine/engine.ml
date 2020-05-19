@@ -1,7 +1,12 @@
 (**
-   Oratio proof construction engine
+   {1 Oratio proof construction engine}
 
-   This module provides methods to execute a proof construction program
+   This module expose a langage as well as a generic evaluator
+   for proofs construction programs.
+
+   Multiple backends could be used to customize this engine and use it to produce
+   indistinclty proof-trees, explanation texts, typed lambda-terms or any other proof object.
+   The interface for such customization it is the {! Make} functor.
 *)
 
 module type EVAL_MODEL = sig
