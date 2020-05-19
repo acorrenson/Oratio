@@ -23,7 +23,7 @@ open Make (Rules)
 
 type env = {ctx:prop list list;
             goals:prop list;
-            proof: (Rules.thm, Logic.prop) instructions list}
+            proof: Logic.prop instructions list}
 
 let add_frame ctx =
   match ctx with

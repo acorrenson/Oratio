@@ -1,14 +1,15 @@
 (**
    {1 Oratio's proof construction engine}
 
-   This module expose a langage as well as a generic evaluator
+   This module exposes a langage as well as a generic evaluator
    for proofs construction programs.
 
-   Multiple backends could be used together with this engine and use it to produce
+   Multiple backends could be used together with this engine to produce
    indistinclty proof-trees, explanation texts, typed lambda-terms or any other 
-   proof object. The interface for such parametrizations is the {! Make} functor.
+   proof objects. Evaluators with custom backends are produced using the {! Make}
+   functor.
 
-   {2 The proof construction language}
+   {1 The proof construction language}
 
    The proof construction language is composed of 12 elementary instructions (see {! instructions}).
    Instructions are evaluated by a stack machine as follows :
@@ -88,7 +89,7 @@ module type EVAL_MODEL = sig
 end
 
 (** Proof construction language *)
-type ('thm, 'prop) instructions =
+type 'prop instructions =
   | IntroBot
   | IntroImpl of 'prop
   | IntroAnd
