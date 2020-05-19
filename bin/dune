@@ -1,4 +1,5 @@
 
 (executable
   (name repl)
-  (libraries kernel language))
+  (public_name oratio)
+  (libraries kernel language translator))

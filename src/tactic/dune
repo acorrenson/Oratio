@@ -1,0 +1,4 @@
+(library
+  (name tactic)
+  (public_name Oratio.tactic)
+  (libraries engine kernel))

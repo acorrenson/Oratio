@@ -1,10 +1,12 @@
-open Kernel.Tactic
+open Tactic
 open Language.Parser
+
+open Engine.Make (Translator.Debuger)
 
 let repl prop =
   let rec step ctx =
     match ctx.goals with
-    | [] -> qed prop ctx
+    | [] -> qed prop ctx; ignore(eval ctx.proof)
     | _ ->
       ignore (Sys.command "clear");
       ignore (debug ctx);
