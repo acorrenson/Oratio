@@ -7,12 +7,13 @@
    a {!thm} object. [thm] objects are then valid by construction.
 *)
 
-open Logic
-
 (** {2 The Theorem object } *)
 
 (** The type representing valid sequents *)
 type thm
+
+type prop = Logic.prop
+
 
 val show_thm : thm -> string
 (** Stringify a {!thm} object for pretty printing purposes *)
@@ -75,3 +76,5 @@ val elim_and_l : thm -> thm
 (** {b And Elimination (right)} rule.
     [elim_and_r (Γ ⊢ α ∧ β)] represents the sequent [Γ ⊢ β]. *)
 val elim_and_r : thm -> thm
+
+val theorem : thm -> thm

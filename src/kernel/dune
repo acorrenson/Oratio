@@ -1,6 +1,3 @@
 (library
   (name kernel)
-  (public_name Oratio.kernel)
-  (modules rules engine tactic logic))
-
-(documentation)
+  (public_name Oratio.kernel))

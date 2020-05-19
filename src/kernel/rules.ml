@@ -8,13 +8,14 @@ open Logic
 
 type thm = Thm of prop list * prop
 
+type prop = Logic.prop
+
 let show_thm (Thm (e, p)) =
-  let rec liste e acc =
-    match e with
-    | [] -> acc
-    | p::tl -> liste tl (Printf.sprintf "%s, %s" (show_prop p) acc)
+  let show_prop_list l = List.fold_left (fun acc p ->
+      acc ^ " " ^ (show_prop p)
+    ) " " l |> String.trim
   in
-  Printf.sprintf "%s |- %s" (liste e "") (show_prop p)
+  Printf.sprintf "%s |- %s" (show_prop_list e) (show_prop p)
 
 let hyp p = List.exists ((=) p)
 let rem p = List.filter ((<>) p)
@@ -73,3 +74,5 @@ let elim_and_r (Thm (e, p)) =
   match p with
   | And (_, q) -> Thm (e, q)
   | _ -> failwith "[elim_and_r] failed"
+
+let theorem t = t

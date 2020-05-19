@@ -1,4 +1,4 @@
 
 (library
   (name language)
-  (libraries opal kernel))
+  (libraries opal kernel tactic))

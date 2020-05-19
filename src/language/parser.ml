@@ -1,5 +1,5 @@
 open Kernel.Logic
-open Kernel.Tactic
+open Tactic
 open Opal
 
 let parens = between (exactly '(') (exactly ')')

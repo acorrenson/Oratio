@@ -1,10 +1,12 @@
-open Rules
-open Engine
+open Kernel
 open Logic
+open Engine
+
+open Make (Rules)
 
 type env = {ctx:prop list list;
             goals:prop list;
-            proof:instructions list}
+            proof: (Rules.thm, Logic.prop) instructions list}
 
 let add_frame ctx =
   match ctx with
@@ -28,7 +30,7 @@ let add_hyp p ctx =
 
 let find p ctx = List.exists ((=) p) (top_frame ctx)
 
-let check goal prog = is_proof (eval prog) goal
+let check goal prog = Kernel.Rules.is_proof (eval prog) goal
 
 let init p = {ctx=[[]]; goals=[p]; proof=[]}
 

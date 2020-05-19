@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+\begin{document}
+\title{Utilisation d'une machine à pile pour la génération d'arbres de preuve en déduction naturelle et leurs traductions en Français}
+\maketitle
+
+\begin{abstract}
+  La déduction naturelle offre un système confortable pour assister la construction de preuves par ordinateur. Si la vérification de la validité des preuves en déduction naturelle est facilement réalisable à l'aide d'un programme, ces dernières restent relativement illisibles. Nous explorons ici l'idée d'exploiter un même programme pour générer de manière interactive un terme de preuve (vérifié ou non) ou une traduction de cette preuve en Français. L'approche repose sur l'utilisation d'une machine à pile capable d'exécuter un langage intermédiaire de construction de preuve. Par soucis de simplicité, on se placera dans le cadre de la logique propositionnelle.
+\end{abstract}
+
+\section{Introduction}
+
+Vérifier la correction d'une preuve est une tâche qui se délègue assez volontiers à un ordinateur. Elle est rendue possible par l'exploitation de systèmes formelles comme la déduction naturelle qui fixent un cadre suffisamment stricte pour mener à bien une preuve tout en rendant possible sa vérification automatique. Toutefois, si une preuve exprimée en déduction naturelle est facilement manipulable par un programme, elle l'est bien moins pour un être humain. Par ailleurs, construire une preuve en interaction avec la machine est un problème bien plus complexe que de simplement en vérifier une déjà construite et complète.
+
+De plus, le développement d'une preuve mathématique est un procédé incrémental par nature, on essaye, on corrige à de multiples reprises avant d'enfin pouvoir écrire CQFD en bas d'une page noircie d'encre. Un programme lui, a besoin de la preuve complète avant de pouvoir vérifier sa validité. Aussi la construction de preuves en interaction avec la machine n'est pas un sujet facile. Des systèmes tels que Coq réalisent se défi en proposant un système de tactiques et une interface pour construire des preuves en interaction avec l'ordinateur. Dans ce document, nous présentons Oratio, un programme simple pour la construction interactive et la vérification d'arbres de preuve en déduction naturelle. Nous verrons également comment il est possible d'exploiter ce système en n'en changeant qu'une infime partie pour obtenir un traducteur des arbres de preuve en langue Française.
+
+
+\section{Structure du programme}
+
+Oratio est un programme conçis et structuré rigoureusement. Il est composé de trois pièces centrales.
+En premier lieu un noyau encodant les règles d'inférence en déduction naturelle pour la logique propositionnelle. Celui ci est gardé minimaliste (75 lignes d'OCaml) et donc très facile à vérifier à la main. En second lieu un "moteur" d'exécution exposant à la fois un langage d'assemblage d'arbre de preuves et une machine à pile pour évaluer ce langage. Enfin, Oratio met à disposition un jeu de tactique pour l'élaboration de preuve en interaction. Chaque tactique traduisant un contexte de preuve en une série d'instructions pour le moteur de construction.
+
+\end{document}

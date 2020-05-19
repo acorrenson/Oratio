@@ -1,4 +1,4 @@
-open Kernel.Tactic
+open Tactic
 open Kernel.Logic
 
 let _ =
