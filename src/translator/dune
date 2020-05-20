@@ -1,4 +1,0 @@
-(library
-  (name translator)
-  (public_name Oratio.translator)
-  (libraries engine kernel))

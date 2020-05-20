@@ -1,12 +1,12 @@
 open Tactic
 open Language.Parser
 
-open Engine.Make (Translator.Debuger)
+open Engine.Make (Translators.Verified_tree)
 
 let repl prop =
   let rec step ctx =
     match ctx.goals with
-    | [] -> qed prop ctx; ignore(eval ctx.proof)
+    | [] -> (* qed prop ctx *) eval ctx.proof |> Translators.Verified_tree.print
     | _ ->
       ignore (Sys.command "clear");
       ignore (debug ctx);

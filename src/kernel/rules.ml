@@ -12,10 +12,10 @@ type prop = Logic.prop
 
 let show_thm (Thm (e, p)) =
   let show_prop_list l = List.fold_left (fun acc p ->
-      acc ^ " " ^ (show_prop p)
+      acc ^ "  " ^ (show_prop p)
     ) " " l |> String.trim
   in
-  Printf.sprintf "%s |- %s" (show_prop_list e) (show_prop p)
+  Printf.sprintf "%s ⊢ %s" (show_prop_list e) (show_prop p)
 
 let hyp p = List.exists ((=) p)
 let rem p = List.filter ((<>) p)

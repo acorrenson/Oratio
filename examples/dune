@@ -1,4 +1,5 @@
 (executable
   (name test)
-  (libraries kernel tactic)
+  (public_name Oratio.examples)
+  (libraries kernel tactic translators)
   (modules test))

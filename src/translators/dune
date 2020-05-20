@@ -1,0 +1,5 @@
+(library
+  (name translators)
+  (public_name Oratio.translators)
+  (libraries engine kernel notty.unix)
+  (preprocess (pps ppx_variants_conv)))

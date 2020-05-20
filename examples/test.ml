@@ -1,78 +1,69 @@
 open Tactic
 open Kernel.Logic
+open Translators
+open Engine
+
+open Make (Verified_tree)
+
+let display e = eval e.proof |> Verified_tree.print
+let clear () = print_endline "\n"
 
 let _ =
+  clear ();
   let p = (Impl (And (Atom 'a', Atom 'b'), And (Atom 'b', Atom 'a'))) in
   init p
-  |> debug
   |> intro
-  |> debug
   |> intro
-  |> debug
   |> elim (And (Atom 'a', Atom 'b'))
-  |> debug
   |> elim (And (Atom 'a', Atom 'b'))
-  |> debug
-  |> qed p
+  |> display
 
 let _ =
+  clear ();
   let p = (Impl (Atom 'a', Impl (Atom 'b', Atom 'a'))) in
   init p
   |> intro
   |> intro
   |> assumption
-  |> qed p
+  |> display
 
 
 let _ =
+  clear ();
   let p = Impl (Atom 'c', And (Impl (Atom 'a', Atom 'a'), Atom 'c')) in
   init p
-  |> debug
   |> intro
-  |> debug
   |> intro
-  |> debug
   |> intro
-  |> debug
   |> assumption
-  |> debug
   |> assumption
-  |> debug
-  |> qed p
+  |> display
 
 let _ =
+  clear ();
   let p = Impl (And (Atom 'a', Atom 'b'), 
                 And (And (Atom 'a', Atom 'b'), 
                      And (Atom 'b', Atom 'a'))) 
   in
   init p
-  |> debug
   |> intro
-  |> debug
   |> intro
-  |> debug
   |> assumption
-  |> debug
   |> intro
-  |> debug
   |> elim (And (Atom 'a', Atom 'b'))
-  |> debug
   |> elim (And (Atom 'a', Atom 'b'))
-  |> debug
-  |> qed p
+  |> display
 
 let _ =
+  clear ();
   let p = Impl (Or (Atom 'a', Atom 'b'), 
                 Or (Atom 'b', Atom 'a'))
   in
   init p
   |> intro
-  |> debug
   |> elim (Or (Atom 'a', Atom 'b'))
-  |> debug
   |> right
-  |> debug
   |> assumption
   |> left
   |> assumption
-  |> qed p
+  |> display
