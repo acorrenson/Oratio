@@ -1,13 +1,10 @@
 open Tactic
 open Language.Parser
 
-module T = Engine.Make (Translators.Verified_tree)
-module D = Engine.Make (Translators.Debuger)
-
 let repl prop =
   let rec step ctx =
     match ctx.goals with
-    | [] -> qed prop ctx; ignore (D.eval ctx.proof) (*T.eval ctx.proof |> Translators.Verified_tree.print*)
+    | [] -> qed prop ctx
     | _ ->
       ignore (Sys.command "clear");
       ignore (debug ctx);

@@ -1,11 +1,11 @@
 open Tactic
 open Kernel.Logic
 open Translators
-open Engine
 
-open Make (Verified_tree)
+module T = Engine.Make (Verified_tree)
+module D = Engine.Make (Debuger)
 
-let display e = eval e.proof |> Verified_tree.print
+let display e = T.eval e.proof |> Verified_tree.print
 let clear () = print_endline "\n"
 
 let _ =
