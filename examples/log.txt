@@ -1,0 +1,20 @@
+A -> ⟘ is in [ A A ∧ B A -> ⟘ ]
+A is in [ A A ∧ B A -> ⟘ ]
+intro BOT on (A  A ∧ B  A -> ⟘ ⊢ A) and (A  A ∧ B  A -> ⟘ ⊢ A -> ⟘) to get (A  A ∧ B  A -> ⟘ ⊢ ⟘)
+elim BOT from (A  A ∧ B  A -> ⟘ ⊢ ⟘) to get (⟘)
+A ∧ B is in [ A ∧ B A -> ⟘ ]
+A ∧ B is in [ A ∧ B A -> ⟘ ]
+elim AND (left) from (A ∧ B  A -> ⟘ ⊢ A ∧ B)
+A -> ⟘ is in [ A ∧ B A -> ⟘ ]
+elim IMPL from (A ∧ B  A -> ⟘ ⊢ A -> ⟘) and (A ∧ B  A -> ⟘ ⊢ A)
+intro IMPL on (A ∧ B  A -> ⟘ ⊢ ⟘) and (A ∧ B)
+intro IMPL on (A -> ⟘ ⊢ A ∧ B -> ⟘) and (A -> ⟘)
+                          A ∧ B  A -> ⟘ ⊢ A ∧ B
+                          ---------------------
+A ∧ B  A -> ⟘ ⊢ A -> ⟘      A ∧ B  A -> ⟘ ⊢ A
+-----------------------------------------------
+               A ∧ B  A -> ⟘ ⊢ ⟘
+-----------------------------------------------
+              A -> ⟘ ⊢ A ∧ B -> ⟘
+-----------------------------------------------
+           ⊢ (A -> ⟘) -> (A ∧ B -> ⟘)

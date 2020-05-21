@@ -47,7 +47,7 @@ let elim_bot (Thm (e, p)) q =
 
 let intro_bot (Thm(e1, p)) (Thm(e2, np)) =
   match np with
-  | Not q when q = p && e1 = e2 ->
+  | Impl (q, Bot) when q = p && e1 = e2 ->
     Thm (e1, Bot)
   | _ -> failwith "[intro_bot] failed"
 

@@ -111,8 +111,8 @@ let contradiction p {ctx; goals; proof} =
   | [] -> failwith "no more subgoals"
   | g::goals ->
     {ctx = add_frame ctx;
-     goals = p::(Not p)::goals;
-     proof = IntroBot::ElimBot g::proof}
+     goals = (Impl (p, Bot))::p::goals;
+     proof = ElimImpl::ElimBot g::proof}
 
 let exfalso {ctx; goals; proof} =
   match goals with
@@ -122,14 +122,6 @@ let exfalso {ctx; goals; proof} =
      goals;
      proof = Axiom (top_frame ctx, Bot)::ElimBot g::proof}
   | _ -> failwith "unable to use exfalso"
-
-let assertion p {ctx; goals; proof} =
-  match goals with
-  | [] -> failwith "no more subgoals"
-  | g::goals ->
-    {ctx=(top_frame ctx)::(add_hyp p ctx);
-     goals = p::g::goals;
-     proof = proof}
 
 let intro {ctx; goals; proof} =
   match goals with
@@ -181,8 +173,6 @@ let help env =
   print_endline "\tIf p is not already in the context, its proof is required";
   print_endline "- elimn n";
   print_endline "\tUse elim on the nth hyptothesis of the context";
-  print_endline "- assertion p";
-  print_endline "\tAdd p to the context providing a proof of it";
   print_endline "- left|right";
   print_endline "\tLeft|Right elimination of a disjunction";
   print_endline "- exfalso";

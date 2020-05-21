@@ -9,11 +9,6 @@ open Kernel
 type thm = Rules.thm
 type prop = Rules.prop
 
-let intro_bot t1 t2 =
-  Printf.printf "intro BOT on (%s) and (%s)\n"
-    (Rules.show_thm t1) (Rules.show_thm t2);
-  Rules.intro_bot t1 t2
-
 let intro_impl t p =
   Printf.printf "intro IMPL on (%s) and (%s)\n"
     (Rules.show_thm t) (Logic.show_prop p);
@@ -41,9 +36,10 @@ let elim_bot t p =
   Rules.elim_bot t p
 
 let elim_impl t1 t2 =
-  Printf.printf "elim IMPL from (%s) and (%s)\n"
-    (Rules.show_thm t1) (Rules.show_thm t2);
-  Rules.elim_impl t1 t2
+  let q = Rules.elim_impl t1 t2 in
+  Printf.printf "elim IMPL from (%s) and (%s) to get %s\n"
+    (Rules.show_thm t1) (Rules.show_thm t2) (Rules.show_thm q);
+  q
 
 let elim_and_l t =
   Printf.printf "elim AND (left) from (%s)\n"

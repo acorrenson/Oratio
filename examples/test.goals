@@ -1,3 +1,4 @@
+Goal (A -> Bot) -> A /\ B -> Bot
 Goal (A \/ B) -> (B \/ A)
 Goal (A /\ B) -> (A \/ B)
 Goal A -> B -> A

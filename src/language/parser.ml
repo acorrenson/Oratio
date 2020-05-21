@@ -9,7 +9,7 @@ let p_and = token "/\\" >> return (fun p q -> And (p, q))
 let p_or = token "\\/" >> return (fun p q -> Or (p, q))
 let p_atom = spaces >> letter => (fun x -> Atom x)
 let p_bot = token "Bot" >> return Bot
-let p_not p = token "not" >> p => (fun x -> Not x)
+let p_not p = token "not" >> p => (fun x -> Impl (x, Bot))
 
 let rec p_prop inp = between spaces spaces (chainr1 p_disj p_impl) inp
 and p_disj inp = between spaces spaces (chainl1 p_conj p_or) inp
@@ -20,13 +20,13 @@ let command str = parse
     (choice [
         token "elimn" >> spaces >> (many1 digit => implode % int_of_string) => elimn;
         token "elim" >> spaces >> p_prop => elim;
+        token "apply" >> spaces >> p_prop => apply;
         token "intro" >> spaces >> return intro;
         token "left" >> spaces >> return left;
         token "right" >> spaces >> return right;
         token "debug" >> spaces >> return debug;
         token "help" >> spaces >> return help;
         token "exfalso" >> spaces >> return exfalso;
-        token "assertion" >> spaces >> p_prop => assertion;
         token "contradiction" >> spaces >> p_prop => contradiction;
         token "assumption" >> spaces >> return assumption;
       ])

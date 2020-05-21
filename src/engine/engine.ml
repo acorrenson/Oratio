@@ -69,7 +69,6 @@ module type EVAL_MODEL = sig
 
   (** {2 Introduction rules} *)
 
-  val intro_bot : thm -> thm -> thm
   val intro_impl : thm -> prop -> thm
   val intro_and : thm -> thm -> thm
   val intro_or_l : thm -> prop -> thm
@@ -90,7 +89,6 @@ end
 
 (** Proof construction language *)
 type 'prop instructions =
-  | IntroBot
   | IntroImpl of 'prop
   | IntroAnd
   | IntroOrL of 'prop
@@ -110,10 +108,6 @@ module Make (X: EVAL_MODEL) = struct
     let fail () = failwith "evaluation failed" in
     let rec exec thms prog =
       match prog with
-      | IntroBot::prog ->
-        (match thms with
-         | t1::t2::thms -> exec (intro_bot t1 t2::thms) prog
-         | _ -> fail ())
       | ElimBot prop::prog ->
         (match thms with
          | thm::thms -> exec (elim_bot thm prop::thms) prog
