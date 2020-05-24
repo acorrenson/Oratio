@@ -34,11 +34,6 @@
    Pop 3 [thm] from the stack, apply [elim_or] on them
    and push the result
 
-   - [IntroBot]
-
-   Pop 2 [thm] from the stack, apply [intro_bot] on them
-   and push the result
-
    - [IntroImpl p]
 
    Pop a [thm] from the stack, apply [intro_impl] with p as second

@@ -45,11 +45,11 @@ let elim_bot (Thm (e, p)) q =
   | Bot -> Thm (e, q)
   | _ -> failwith "[elim_bot] failed"
 
-let intro_bot (Thm(e1, p)) (Thm(e2, np)) =
-  match np with
-  | Impl (q, Bot) when q = p && e1 = e2 ->
+(* let intro_bot (Thm(e1, p)) (Thm(e2, np)) =
+   match np with
+   | Impl (q, Bot) when q = p && e1 = e2 ->
     Thm (e1, Bot)
-  | _ -> failwith "[intro_bot] failed"
+   | _ -> failwith "[intro_bot] failed" *)
 
 let intro_or_l (Thm (e, p)) q = Thm (e, Or (p, q))
 

@@ -55,10 +55,6 @@ val elim_impl : thm -> thm -> thm
     [elim_bot (Γ ⊢ ⊥) α] represents the sequent [Γ ⊢ α]. *)
 val elim_bot : thm -> prop -> thm
 
-(** {b Bottom Introduction} rule.
-    [intro_bot (Γ ⊢ α) (Γ ⊢ ¬α)] represents the sequent [Γ ⊢ ⊥]. *)
-val intro_bot : thm -> thm -> thm
-
 (** {b Or Introduction (left)} rule.
     [intro_or_l (Γ ⊢ α) β] represents the sequent [Γ ⊢ α ∨ β]. *)
 val intro_or_l : thm -> prop -> thm
