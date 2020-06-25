@@ -1,0 +1,2 @@
+Goal (p /\ q -> r) -> (p -> q -> r) 
+Goal (p -> q -> r) -> (p /\ q -> r)

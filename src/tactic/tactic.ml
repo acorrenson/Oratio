@@ -52,14 +52,29 @@ let check goal prog = Kernel.Rules.is_proof (eval prog) goal
 let init p = {ctx=[[]]; goals=[p]; proof=[]}
 
 let apply p {ctx; goals; proof} =
+  let rec compat a b =
+    match b with
+    | Atom _ -> a = b
+    | Impl (_, c) -> a = c || compat a c
+    | _ -> false
+  in
+  let rec extract a b acc =
+    match b with
+    | Impl (p, c) -> if a = c then p::acc else extract a c (p::acc)
+    | _ -> assert false
+  in
   match goals, p with
   | [], _ -> failwith "no more subgoals"
-  | g::goals, Impl (a, b) when g = b && find p ctx ->
-    {ctx = ctx;
-     goals = a::goals;
-     proof = Axiom (top_frame ctx, p)::ElimImpl::proof}
+  | g::goals, Impl (_, b) when compat g b && find p ctx ->
+    let gs = (extract g p []) |> List.rev in
+    let cs = List.init (List.length gs) (fun _ -> top_frame ctx) in
+    let ps = List.init (List.length gs) (fun _ -> ElimImpl) in
+    {ctx = cs;
+     goals = gs @ goals;
+     proof = Axiom (top_frame ctx, p)::(ps @ proof)}
   | _ -> failwith "Unable to use apply"
 
+let applyn n e = apply (List.nth (top_frame e.ctx) n) e
 
 let elim p {ctx; goals; proof} =
   match goals, p with

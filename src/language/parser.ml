@@ -20,6 +20,7 @@ let command str = parse
     (choice [
         token "elimn" >> spaces >> (many1 digit => implode % int_of_string) => elimn;
         token "elim" >> spaces >> p_prop => elim;
+        token "applyn" >> spaces >> (many1 digit => implode % int_of_string) => applyn;
         token "apply" >> spaces >> p_prop => apply;
         token "intro" >> spaces >> return intro;
         token "left" >> spaces >> return left;
