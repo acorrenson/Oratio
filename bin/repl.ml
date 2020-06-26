@@ -11,7 +11,12 @@ let repl prop =
       print_string "> ";
       flush stdout;
       match command (read_line ()) with
-      | Some f -> step (f ctx)
+      | Some f ->
+        begin try step (f ctx) 
+          with Failure s ->
+            print_endline s;
+            step ctx
+        end
       | None -> step ctx
   in
   step (init prop)

@@ -79,7 +79,7 @@ let applyn n e = apply (List.nth (top_frame e.ctx) n) e
 let elim p {ctx; goals; proof} =
   match goals, p with
   | [], _ -> failwith "no more subgoals"
-  | g::goals, And (a, b) when a = g || b = g && find p ctx ->
+  | g::goals, And (a, b) when (a = g || b = g) && find p ctx ->
     {ctx = drop_frame ctx;
      goals = goals;
      proof =
@@ -99,6 +99,7 @@ let elim p {ctx; goals; proof} =
      proof =
        ElimOr
        ::proof}
+  | _, Impl _ -> apply p {ctx; goals; proof}
   | _ -> failwith ("Unable to use elim " ^ (show_prop p))
 
 let elimn n e = elim (List.nth (top_frame e.ctx) n) e
@@ -155,6 +156,10 @@ let intro {ctx; goals; proof} =
     else failwith "Unable to use intro"
   | _ -> failwith "Unable to use intro"
 
+let rec intros e =
+  let e' = intro e in
+  try intros e'
+  with _ -> e'
 
 let assumption {ctx; goals; proof} =
   match goals with
@@ -183,11 +188,13 @@ let help env =
   print_endline "- intro";
   print_endline "\tUse an introduction rule matching the current goal";
   print_endline "- elim p";
-  print_endline "\tTry to eliminate a conjuction or a disjunction";
+  print_endline "\tTry to eliminate a proposition";
   print_endline "\tIf p is a is already in the context, its proof is not required";
   print_endline "\tIf p is not already in the context, its proof is required";
   print_endline "- elimn n";
-  print_endline "\tUse elim on the nth hyptothesis of the context";
+  print_endline "\tEliminate the nth hyptothesis";
+  print_endline "- apply p";
+  print_endline "\tTry to eliminate the implication p";
   print_endline "- left|right";
   print_endline "\tLeft|Right elimination of a disjunction";
   print_endline "- exfalso";
