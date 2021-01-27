@@ -1,10 +1,15 @@
 open Tactic
 open Language.Parser
 
+let count = ref 0
+
 let repl prop =
   let rec step ctx =
     match ctx.goals with
-    | [] -> qed prop ctx
+    | [] ->
+      incr count;
+      log ("log_" ^ string_of_int !count) ctx;
+      qed prop ctx
     | _ ->
       ignore (Sys.command "clear");
       ignore (debug ctx);

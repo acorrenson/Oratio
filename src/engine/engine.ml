@@ -54,6 +54,8 @@
    Push [axiom l p] on the stack
 *)
 
+open Kernel.Logic
+
 (** Signature of backend modules for the engine *)
 module type EVAL_MODEL = sig
   (** Proof object *)
@@ -83,20 +85,24 @@ module type EVAL_MODEL = sig
 end
 
 (** Proof construction language *)
-type 'prop instructions =
-  | IntroImpl of 'prop
+type instructions =
+  | IntroImpl of prop
   | IntroAnd
-  | IntroOrL of 'prop
-  | IntroOrR of 'prop
-  | ElimBot of 'prop
+  | IntroOrL of prop
+  | IntroOrR of prop
+  | ElimBot of prop
   | ElimImpl
   | ElimAndL
   | ElimAndR
   | ElimOr
-  | Axiom of 'prop list * 'prop
+  | Axiom of prop list * prop
+[@@deriving show]
+
+let instr_dump oc code =
+  List.iter (fun x -> show_instructions x |> Printf.fprintf oc "%s\n") code
 
 
-module Make (X: EVAL_MODEL) = struct
+module Make (X: EVAL_MODEL with type prop = prop) = struct
   open X
 
   let eval prog =

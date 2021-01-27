@@ -1,7 +1,7 @@
 (**
    {1 Tactic}
 
-   Tactics for interative theorem proving.
+   Tactics for interactive theorem proving.
 
    Each tactic is a function maping an interactive proof environement to
    another proof environement and generating instructions for the
@@ -11,8 +11,8 @@
    evaluated using the {! engine} module together with the backend of your
    choice.
 
-   The function {! qed} evaluate the construction program contained in a proof 
-   environement with the {! rules} backend for Oratio's engine.
+   The function {! qed} evaluates the construction program contained in a proof 
+   environement with the {! Kernel} as a backend.
 *)
 
 open Kernel
@@ -21,14 +21,16 @@ open Engine
 
 open Make (Rules)
 
-type env = {ctx:prop list list;
-            goals:prop list;
-            proof: Logic.prop instructions list}
+type env = {
+  ctx   : prop list list;
+  goals : prop list;
+  proof : instructions list
+}
 
 let add_frame ctx =
   match ctx with
   | [] -> [[]]
-  | f::fs -> f::f::fs 
+  | f::fs -> f::f::fs
 
 let drop_frame ctx =
   match ctx with
@@ -212,6 +214,9 @@ let qed p e =
   if check p e.proof
   then Printf.printf "Goal %s Proved.\n" (show_prop p)
   else Printf.printf "Goal %s Failed.\n" (show_prop p)
+
+let log fn e = instr_dump (open_out fn) e.proof
+
 
 
 
