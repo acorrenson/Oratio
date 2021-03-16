@@ -1,3 +1,5 @@
 (library
   (name engine)
-  (public_name Oratio.engine))
+  (public_name Oratio.engine)
+  (preprocess (pps ppx_deriving.show))
+  (libraries kernel))

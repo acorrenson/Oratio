@@ -10,6 +10,7 @@ type prop =
   | Impl of prop * prop
   | Atom of char
   | Bot
+[@@deriving show]
 
 let priority p =
   match p with

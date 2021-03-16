@@ -1,0 +1,28 @@
+(Engine.Axiom (
+   [(Logic.And ((Logic.Atom 'p'), (Logic.Atom 'q')));
+     (Logic.Impl ((Logic.Atom 'p'),
+        (Logic.Impl ((Logic.Atom 'q'), (Logic.Atom 'r')))))
+     ],
+   (Logic.And ((Logic.Atom 'p'), (Logic.Atom 'q')))))
+Engine.ElimAndR
+(Engine.Axiom (
+   [(Logic.And ((Logic.Atom 'p'), (Logic.Atom 'q')));
+     (Logic.Impl ((Logic.Atom 'p'),
+        (Logic.Impl ((Logic.Atom 'q'), (Logic.Atom 'r')))))
+     ],
+   (Logic.And ((Logic.Atom 'p'), (Logic.Atom 'q')))))
+Engine.ElimAndL
+(Engine.Axiom (
+   [(Logic.And ((Logic.Atom 'p'), (Logic.Atom 'q')));
+     (Logic.Impl ((Logic.Atom 'p'),
+        (Logic.Impl ((Logic.Atom 'q'), (Logic.Atom 'r')))))
+     ],
+   (Logic.Impl ((Logic.Atom 'p'),
+      (Logic.Impl ((Logic.Atom 'q'), (Logic.Atom 'r')))))
+   ))
+Engine.ElimImpl
+Engine.ElimImpl
+(Engine.IntroImpl (Logic.And ((Logic.Atom 'p'), (Logic.Atom 'q'))))
+(Engine.IntroImpl
+   (Logic.Impl ((Logic.Atom 'p'),
+      (Logic.Impl ((Logic.Atom 'q'), (Logic.Atom 'r'))))))
